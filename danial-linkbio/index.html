@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Danial Ezatmadar</title>
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22url(%23g)%22/><defs><linearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22><stop stop-color=%22%2300c6ff%22/><stop offset=%221%22 stop-color=%22%23ffb347%22/></linearGradient></defs><text x=%2230%22 y=%2270%22 font-size=%2270%22 fill=%22white%22 font-family=%22Poppins,sans-serif%22>D</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent1:#00c6ff;
+  --accent2:#ffb347;
+  --bg:#07070a;
+  --text:#eaeaea;
+  --blur:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(120deg,#060608,#0a0a0e,#1a1c1f,#0a0a0e);
+  background-size:400% 400%;
+  animation:bgmove 30s ease infinite;
+  color:var(--text);
+  overflow-x:hidden;
+}
+@keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.hero{
+  position:relative;height:60vh;min-height:380px;overflow:hidden;
+  display:flex;align-items:flex-end;justify-content:flex-start;
+}
+.hero img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:brightness(.55) saturate(.9);
+  transform:scale(1.05);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.85) 80%);
+}
+.hero-text{position:relative;padding:40px;animation:fadeup 1.5s ease both;}
+@keyframes fadeup{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
+.title{font-size:clamp(28px,5vw,52px);font-weight:700;margin-bottom:6px;color:#fefefe}
+.subtitle{font-size:16px;opacity:.8;margin-bottom:10px}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.badge{background:rgba(255,255,255,0.08);backdrop-filter:blur(6px);
+  padding:5px 10px;border-radius:50px;font-size:13px;color:#ddd}
+
+.icons{
+  display:flex;justify-content:center;gap:30px;flex-wrap:wrap;
+  padding:40px 0;animation:fadeup 1.2s ease both;
+}
+.icon-btn{
+  width:70px;height:70px;border-radius:50%;
+  background:linear-gradient(145deg,var(--accent1),var(--accent2));
+  display:grid;place-items:center;
+  box-shadow:0 0 25px rgba(255,179,71,.25);
+  transition:all .35s ease;cursor:pointer;position:relative;
+}
+.icon-btn:hover{
+  transform:translateY(-6px) scale(1.05);
+  box-shadow:0 0 35px rgba(0,198,255,.4);
+}
+.icon-btn svg{width:32px;height:32px;fill:white}
+.icon-btn::after{
+  content:attr(data-tip);
+  position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:10px;
+  font-size:12px;opacity:0;transition:.3s ease;color:#eee;
+}
+.icon-btn:hover::after{opacity:1}
+
+.gallery{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;padding:0 20px 60px;
+}
+.gallery img{
+  width:100%;height:200px;object-fit:cover;border-radius:18px;
+  transition:transform .5s ease,box-shadow .4s ease;
+  filter:brightness(.9) contrast(1.05);
+}
+.gallery img:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,179,71,.3)}
+
+.music-btn{
+  position:fixed;top:16px;right:16px;width:40px;height:40px;border:none;
+  border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:white;display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 0 15px rgba(255,179,71,.3);
+  z-index:20;
+}
+.music-btn:hover{transform:scale(1.1)}
+
+.footer{
+  text-align:center;
+  padding:40px 20px 30px;
+  font-size:14px;
+  opacity:.85;
+  color:#f0f0f0;
+  position:relative;
+  z-index:5;
+}
+.footer-line{
+  width:80px;height:2px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  margin:0 auto 12px;border-radius:2px;
+  animation:glowline 3s ease-in-out infinite alternate;
+}
+@keyframes glowline{
+  0%{box-shadow:0 0 10px var(--accent1);}
+  100%{box-shadow:0 0 20px var(--accent2);}
+}
+.fadeup{opacity:0;transform:translateY(30px);transition:all .7s ease}
+.fadeup.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- Music Button -->
+<button class="music-btn" id="musicBtn">🎵</button>
+<audio id="bgmusic" src="https://cdn.pixabay.com/audio/2022/03/15/audio_48a2b8baf7.mp3" preload="auto" loop></audio>
+
+<!-- Hero -->
+<section class="hero">
+  <img src="assets/photo1.jpeg" alt="Danial">
+  <div class="hero-text">
+    <div class="title">Make my day a little brighter 🙂</div>
+    <div class="subtitle">📍 Currently in Italy 🇮🇹</div>
+    <div class="badge-row">
+      <span class="badge">Radiology</span>
+      <span class="badge">Fitness</span>
+      <span class="badge">Tech</span>
+    </div>
+  </div>
+</section>
+
+<!-- Social Icons -->
+<div class="icons fadeup">
+  <a href="https://www.instagram.com/danialezatmadar" target="_blank" class="icon-btn" data-tip="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM18 6.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg>
+  </a>
+  <a href="https://m.facebook.com/daniel.hols.7" target="_blank" class="icon-btn" data-tip="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.7-1.5h1.8V4.3c-.3 0-1.4-.1-2.7-.1-2.7 0-4.6 1.6-4.6 4.7V11H7v3h2.7v8h3.8z"/></svg>
+  </a>
+  <a href="https://t.me/danialezzat" target="_blank" class="icon-btn" data-tip="Telegram">
+    <svg viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.36c.55 0 .79-.24 1.08-.53l2.6-2.5 5.39 3.94c.99.55 1.69.26 1.96-.92l3.56-16.7h.01c.32-1.49-.54-2.07-1.5-1.7L1.67 9.5c-1.46.57-1.44 1.39-.25 1.76l5.75 1.8 13.32-8.49c.63-.39 1.2-.17.73.22z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/danielezzatmadar" target="_blank" class="icon-btn" data-tip="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.65 4.76 6.09V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.78 0-2.05 1.38-2.05 2.8V21H9z"/></svg>
+  </a>
+</div>
+
+<!-- Gallery -->
+<div class="gallery fadeup">
+  <img src="assets/photo2.jpeg" alt="">
+  <img src="assets/photo3.jpeg" alt="">
+  <img src="assets/photo4.jpeg" alt="">
+</div>
+
+<!-- Footer -->
+<footer class="footer fadeup">
+  <div class="footer-line"></div>
+  <p>© 2025 <strong>Danial Ezatmadar</strong> · Crafted with passion 🎬</p>
+</footer>
+
+<!-- Script -->
+<script>
+const music=document.getElementById('bgmusic');
+const btn=document.getElementById('musicBtn');
+let isPlaying=false;
+
+function fadeVolume(target,duration){
+  const step=(music.volume-target)/(duration/50);
+  const fade=setInterval(()=>{
+    if((step>0&&music.volume<=target)||(step<0&&music.volume>=target)){
+      clearInterval(fade);
+      music.volume=target;
+      if(target===0&&!isPlaying)music.pause();
+    }else{
+      music.volume-=step;
+    }
+  },50);
+}
+
+// unlock audio on first click anywhere
+document.body.addEventListener('click',async()=>{
+  if(!isPlaying){
+    try{
+      await music.play();
+      music.volume=0;
+      fadeVolume(1,2000);
+      isPlaying=true;
+      btn.textContent='🔊';
+    }catch(err){console.log('Playback blocked:',err);}
+  }
+},{once:true});
+
+// toggle button
+btn.addEventListener('click',async()=>{
+  if(isPlaying){
+    isPlaying=false;
+    btn.textContent='🎵';
+    fadeVolume(0,1000);
+  }else{
+    isPlaying=true;
+    btn.textContent='🔊';
+    music.play();
+    music.volume=0;
+    fadeVolume(1,2000);
+  }
+});
+
+// fade-up animation
+const fadeEls=document.querySelectorAll('.fadeup');
+function reveal(){
+  const trigger=window.innerHeight*0.85;
+  fadeEls.forEach(el=>{
+    const top=el.getBoundingClientRect().top;
+    if(top<trigger)el.classList.add('visible');
+  });
+}
+window.addEventListener('scroll',reveal);
+reveal();
+</script>
+</body>
+</html>
