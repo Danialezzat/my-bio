@@ -15,7 +15,6 @@
   --accent2:#ffb347;
   --bg:#07070a;
   --text:#eaeaea;
-  --blur:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -171,14 +170,12 @@ const music = document.getElementById('bgmusic');
 const btn = document.getElementById('musicBtn');
 let isPlaying = false;
 
-// Try autoplay (muted)
-music.play().then(()=>{
-  console.log("Music autoplay started (muted)");
-}).catch(err=>{
-  console.log("Autoplay blocked:", err);
-});
+// Start muted autoplay
+music.play().then(() => {
+  console.log("Autoplay (muted) started");
+}).catch(err => console.log("Autoplay blocked:", err));
 
-// Fade volume function
+// Smooth volume change
 function fadeVolume(target, duration) {
   const step = (target - music.volume) / (duration / 50);
   const fade = setInterval(() => {
@@ -192,17 +189,17 @@ function fadeVolume(target, duration) {
   }, 50);
 }
 
-// Unmute and fade in on first click
-document.body.addEventListener('click', () => {
+// ⏰ After 5 seconds, unmute & fade in automatically
+setTimeout(() => {
   if (!isPlaying) {
     music.muted = false;
     isPlaying = true;
     btn.textContent = '🔊';
-    fadeVolume(1, 2000);
+    fadeVolume(1, 3000);
   }
-}, { once:true });
+}, 5000);
 
-// Toggle button
+// Toggle music manually
 btn.addEventListener('click', () => {
   if (isPlaying) {
     isPlaying = false;
