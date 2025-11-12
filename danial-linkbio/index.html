@@ -120,7 +120,7 @@ body{
 
 <!-- Music Button -->
 <button class="music-btn" id="musicBtn">🎵</button>
-<audio id="bgmusic" src="assets/emotional-inspiring-piano-music-433540.mp3" preload="auto" loop></audio>
+<audio id="bgmusic" src="assets/emotional-inspiring-piano-music-433540.mp3" preload="auto" loop muted></audio>
 
 <!-- Hero -->
 <section class="hero">
@@ -167,61 +167,66 @@ body{
 
 <!-- Script -->
 <script>
-const music=document.getElementById('bgmusic');
-const btn=document.getElementById('musicBtn');
-let isPlaying=false;
+const music = document.getElementById('bgmusic');
+const btn = document.getElementById('musicBtn');
+let isPlaying = false;
 
-function fadeVolume(target,duration){
-  const step=(music.volume-target)/(duration/50);
-  const fade=setInterval(()=>{
-    if((step>0&&music.volume<=target)||(step<0&&music.volume>=target)){
+// Try autoplay (muted)
+music.play().then(()=>{
+  console.log("Music autoplay started (muted)");
+}).catch(err=>{
+  console.log("Autoplay blocked:", err);
+});
+
+// Fade volume function
+function fadeVolume(target, duration) {
+  const step = (target - music.volume) / (duration / 50);
+  const fade = setInterval(() => {
+    if ((step > 0 && music.volume >= target) || (step < 0 && music.volume <= target)) {
       clearInterval(fade);
-      music.volume=target;
-      if(target===0&&!isPlaying)music.pause();
-    }else{
-      music.volume-=step;
+      music.volume = target;
+      if (target === 0 && !isPlaying) music.pause();
+    } else {
+      music.volume += step;
     }
-  },50);
+  }, 50);
 }
 
-// unlock audio on first click anywhere
-document.body.addEventListener('click',async()=>{
-  if(!isPlaying){
-    try{
-      await music.play();
-      music.volume=0;
-      fadeVolume(1,2000);
-      isPlaying=true;
-      btn.textContent='🔊';
-    }catch(err){console.log('Playback blocked:',err);}
+// Unmute and fade in on first click
+document.body.addEventListener('click', () => {
+  if (!isPlaying) {
+    music.muted = false;
+    isPlaying = true;
+    btn.textContent = '🔊';
+    fadeVolume(1, 2000);
   }
-},{once:true});
+}, { once:true });
 
-// toggle button
-btn.addEventListener('click',async()=>{
-  if(isPlaying){
-    isPlaying=false;
-    btn.textContent='🎵';
-    fadeVolume(0,1000);
-  }else{
-    isPlaying=true;
-    btn.textContent='🔊';
+// Toggle button
+btn.addEventListener('click', () => {
+  if (isPlaying) {
+    isPlaying = false;
+    btn.textContent = '🎵';
+    fadeVolume(0, 1000);
+  } else {
+    isPlaying = true;
+    music.muted = false;
     music.play();
-    music.volume=0;
-    fadeVolume(1,2000);
+    btn.textContent = '🔊';
+    fadeVolume(1, 2000);
   }
 });
 
 // fade-up animation
-const fadeEls=document.querySelectorAll('.fadeup');
-function reveal(){
-  const trigger=window.innerHeight*0.85;
-  fadeEls.forEach(el=>{
-    const top=el.getBoundingClientRect().top;
-    if(top<trigger)el.classList.add('visible');
+const fadeEls = document.querySelectorAll('.fadeup');
+function reveal() {
+  const trigger = window.innerHeight * 0.85;
+  fadeEls.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if (top < trigger) el.classList.add('visible');
   });
 }
-window.addEventListener('scroll',reveal);
+window.addEventListener('scroll', reveal);
 reveal();
 </script>
 </body>
